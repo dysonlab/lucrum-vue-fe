@@ -128,20 +128,19 @@ export default {
             this.errorConfirmPassowrdNotSame = false
         },
         async onClickButtonRegister() {
-            // this.clearFormError()
-            // let isValidated = this.validatePayload()
-            // const payload = {
-            //     firstName: this.firstName,
-            //     lastname: this.lastName,
-            //     email: this.email,
-            //     phone: this.phone,
-            //     password: this.password,
-            // }
-            // if (isValidated) {
-            //     await this.REGISTER(payload)
-            //     this.$router.push({ path: '/dashboard' })
-            // }
-            this.$router.push({ path: '/dashboard' })
+            this.clearFormError()
+            let isValidated = this.validatePayload()
+            const payload = {
+                firstName: this.firstName,
+                lastname: this.lastName,
+                email: this.email,
+                phone: this.phone,
+                password: this.password,
+            }
+            if (isValidated) {
+                await this.REGISTER(payload)
+                this.$router.push({ path: '/dashboard' })
+            }
         }
     }
 }
