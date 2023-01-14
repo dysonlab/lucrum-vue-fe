@@ -45,9 +45,14 @@
 
     @media (max-width: 800px) {
         img {
+            margin-top: 30px;
             width: 100%;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        h1 {
+            margin-top: 30px;
         }
 
         .content {
