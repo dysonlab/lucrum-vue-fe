@@ -30,13 +30,16 @@
                         <p>Enter your password</p>
                         <input type="password" class="input" placeholder="Password *" v-model="password">
                         <p v-if="errorPasswordRequired" class="error">password is required</p>
-                        <p v-if="errorPasswordTooShort" class="error">confirm password is too short, at least 8 characters are allowed</p>
+                        <p v-if="errorPasswordTooShort" class="error">confirm password is too short, at least 8
+                            characters are allowed</p>
                     </div>
                     <div class="reigster-input-confrim-password">
                         <p>Confrim password</p>
                         <input type="password" class="input" placeholder="Confirm password *" v-model="confirmPassword">
                         <p v-if="errorConfirmPasswordRequired" class="error">confirm password is required</p>
-                        <p v-if="errorConfirmPasswordTooShort" class="error">confirm password is too short, at least 8 characters are allowed</p>
+                        <p v-if="errorConfirmPasswordTooShort" class="error">confirm password is too short, at least 8
+                            characters are allowed</p>
+                        <p v-if="errorConfirmPassowrdNotSame" class="error">confirm password not same</p>
                     </div>
                     <button @click="onClickButtonRegister()" class="register">register</button>
                 </div>
@@ -47,14 +50,14 @@
 
 <script>
 import AppBar from "@/components/AppBar.vue";
-// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 // import { toTitleCase } from "@/utils/string"
 
 export default {
     name: "Register",
     components: { AppBar },
-    data(){
-        return{
+    data() {
+        return {
             firstName: "",
             lastname: "",
             email: "",
@@ -69,48 +72,76 @@ export default {
             errorPasswordTooShort: false,
             errorConfirmPasswordRequired: false,
             errorConfirmPasswordTooShort: false,
+            errorConfirmPassowrdNotSame: false,
         }
     },
-    methods:{
-        validatePayload(){
-            if(this.firstName === ""){
+    methods: {
+        ...mapActions(["REGISTER"]),
+        validatePayload() {
+            if (this.firstName === "") {
                 this.errorFirstName = true
+                return false;
             }
-            if(this.lastname === ""){
+            if (this.lastname === "") {
                 this.errorLastName = true
+                return false;
             }
-            if(this.email === ""){
+            if (this.email === "") {
                 this.errorEmail = true
+                return false;
             }
-            if(this.phone.length < 10){
+            if (this.phone.length < 10) {
                 this.errorPhone = true
+                return false;
             }
-            if(this.password === ""){
+            if (this.password === "") {
                 this.errorPasswordRequired = true
+                return false;
             }
-            if(this.password.length < 8 && this.password !== ""){
+            if (this.password.length < 8 && this.password !== "") {
                 this.errorPasswordTooShort = true
+                return false;
             }
-            if(this.confirmPassword === ""){
+            if (this.confirmPassword === "") {
                 this.errorConfirmPasswordRequired = true
+                return false;
             }
-            if(this.confirmPassword.length < 8 && this.confirmPassword !== ""){
+            if (this.confirmPassword.length < 8 && this.confirmPassword !== "") {
                 this.errorConfirmPasswordTooShort = true
+                return false;
             }
+            if (this.confirmPassword !== this.password) {
+                this.errorConfirmPassowrdNotSame = true
+                return false;
+            }
+            return true;
         },
-        clearFormError(){
+        clearFormError() {
             this.errorFirstName = false
             this.errorLastName = false
             this.errorEmail = false
             this.errorPhone = false
-            this.errorPasswordRequired =  false
-            this.errorPasswordTooShort =  false
+            this.errorPasswordRequired = false
+            this.errorPasswordTooShort = false
             this.errorConfirmPasswordRequired = false
             this.errorConfirmPasswordTooShort = false
+            this.errorConfirmPassowrdNotSame = false
         },
-        onClickButtonRegister(){
-            this.clearFormError()
-            this.validatePayload()
+        async onClickButtonRegister() {
+            // this.clearFormError()
+            // let isValidated = this.validatePayload()
+            // const payload = {
+            //     firstName: this.firstName,
+            //     lastname: this.lastName,
+            //     email: this.email,
+            //     phone: this.phone,
+            //     password: this.password,
+            // }
+            // if (isValidated) {
+            //     await this.REGISTER(payload)
+            //     this.$router.push({ path: '/dashboard' })
+            // }
+            this.$router.push({ path: '/dashboard' })
         }
     }
 }
@@ -122,7 +153,7 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .register-container{
+    .register-container {
 
         .register-form {
             background: var(--color-white);
@@ -178,12 +209,13 @@ export default {
                     border-radius: 0.2rem;
                     cursor: pointer;
                     transition: all 500ms ease;
+
                     &:hover {
                         box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
                     }
                 }
 
-                .error{
+                .error {
                     color: red;
                     margin-top: -2px;
                     font-size: 0.6rem;
@@ -194,9 +226,9 @@ export default {
 }
 
 @media (max-width: 768px) {
-    .view-container{
-        .register-container{
-            .register-form{
+    .view-container {
+        .register-container {
+            .register-form {
                 width: 100%;
                 background-color: var(--color-white-background);
                 box-shadow: none;

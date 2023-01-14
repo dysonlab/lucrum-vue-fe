@@ -48,12 +48,13 @@ export default {
     },
     methods: {
         ...mapActions(["LOGIN"]),
-        onClickButtonLogin(){
+        async onClickButtonLogin(){
             const payload = {
                 email: this.email,
                 password: this.password
             }
-            this.LOGIN(payload)
+            await this.LOGIN(payload)
+            this.$router.push({ path: '/dashboard' })
         }
     }
 }

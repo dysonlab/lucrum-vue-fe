@@ -10,4 +10,8 @@ export class LucrumAPI {
    async login(payload) {
         return this.instance.post("/auth/login", payload)
     }
+
+    async reigster(payload) {
+        return this.instance.post("/user", payload)
+    }
 }
